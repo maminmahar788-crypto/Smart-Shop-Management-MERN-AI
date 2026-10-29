@@ -1,0 +1,4 @@
+const mongoose = require('mongoose');
+const itemSchema = new mongoose.Schema({ product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }, name: String, sku: String, quantity: { type: Number, min: 1 }, unitPrice: { type: Number, min: 0 }, unitCost: { type: Number, min: 0 }, lineTotal: Number }, { _id: false });
+const saleSchema = new mongoose.Schema({ invoiceNo: { type: String, unique: true }, items: [itemSchema], subtotal: Number, discount: { type: Number, default: 0 }, total: Number, estimatedCost: Number, estimatedProfit: Number, customerName: { type: String, default: 'Walk-in customer' }, paymentMethod: { type: String, enum: ['cash', 'card', 'bank', 'other'], default: 'cash' }, createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } }, { timestamps: true });
+module.exports = mongoose.model('Sale', saleSchema);
